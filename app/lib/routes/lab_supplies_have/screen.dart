@@ -1,3 +1,4 @@
+import 'package:app/routes/lab_supplies_have/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,12 +10,7 @@ class HaveLabSuppliesScreen extends StatelessWidget {
         title: Text('Have Lab Supplies'),
       ),
       body: Center(
-        child: RaisedButton(
-          child: Text('Submit'),
-          onPressed: () {
-            // Navigate to the second screen when tapped.
-          },
-        ),
+        child: HaveLabSuppliesForm(),
       ),
     );
   }
