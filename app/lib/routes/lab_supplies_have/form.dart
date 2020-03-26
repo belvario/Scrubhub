@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class HaveLabSuppliesForm extends StatefulWidget {
   @override
@@ -10,40 +11,75 @@ class HaveLabSuppliesForm extends StatefulWidget {
 
 class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
 
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
+
     // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
+    return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          TextFormField(
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+          FormBuilder(
+            // context,
+            key: _fbKey,
+            autovalidate: true,
+            initialValue: {},
+            readOnly: false,
+            child: Column(
+              children: <Widget>[
+                FormBuilderTextField(
+                  attribute: "email",
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email address',
+                    hintText: 'Your email'
+                  ),
+                  validators: [
+                    FormBuilderValidators.email(),
+                  ]
+                )
+              ]
+            )
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false
-                // otherwise.
-                if (_formKey.currentState.validate()) {
-                  // If the form is valid, display a Snackbar.
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ),        
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    if (_fbKey.currentState.saveAndValidate()) {
+                      print(_fbKey.currentState.value);
+                    } else {
+                      print(_fbKey.currentState.value);
+                      print("validation failed");
+                    }
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  child: Text(
+                    "Reset",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    _fbKey.currentState.reset();
+                  },
+                ),
+              ),
+            ],
+          ),
         ]
-     )
+      )
     );
   }
 }

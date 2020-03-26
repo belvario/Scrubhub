@@ -9,7 +9,8 @@ class HaveLabSuppliesScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Have Lab Supplies'),
       ),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsets.all(10),
         child: HaveLabSuppliesForm(),
       ),
     );

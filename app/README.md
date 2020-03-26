@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+
+## Dependencies
+
+* [flutter_form_builder](https://pub.dev/packages/flutter_form_builder#-readme-tab-)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
