@@ -1,3 +1,4 @@
+import 'package:app/form_fields/other_option.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -12,14 +13,11 @@ class MedicalEquipmentFormFields {
     'Plastic rain ponchos',
     'Bleach/bleach wipes',
     'Hand sanitizer',
-    'Other...'
+    OtherOption.value
   ];
 
-  static final options = equipment.map<FormBuilderFieldOption>((equip) => 
-    FormBuilderFieldOption(
-      child: Text('$equip'),
-      value: '$equip'
-    )
-  ).toList();
-
+  static final options = equipment
+      .map<FormBuilderFieldOption>((equip) =>
+          FormBuilderFieldOption(child: Text('$equip'), value: '$equip'))
+      .toList();
 }

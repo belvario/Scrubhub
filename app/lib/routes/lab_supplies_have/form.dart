@@ -1,5 +1,7 @@
 import 'package:app/form_fields/medical_equipment.dart';
+import 'package:app/form_fields/other_option.dart';
 import 'package:app/form_fields/states.dart';
+import 'package:app/widgets/viz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -14,9 +16,15 @@ class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
+  bool _medEquipmentOtherViz = false;
+  void showMedEquipmentOther(value) {
+    setState(() {
+      _medEquipmentOtherViz = OtherOption.isSelected(value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
     // Build a Form widget using the _formKey created above.
     return SingleChildScrollView(
       child: Column(
@@ -87,10 +95,26 @@ class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
                 FormBuilderCheckboxList(
                   attribute: "medical_equipment",
                   options: MedicalEquipmentFormFields.options,
+                  onChanged: (value) => showMedEquipmentOther(value),
                   validators: [
                     FormBuilderValidators.required(),
                   ],
                 ),
+                Visibility(
+                  child: FormBuilderTextField(
+                    attribute: "medical_equipment_other",
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'Other Medical Equipment: ',
+                      hintText: 'Description of Available Equipment'
+                    ),
+                    validators: [
+                      OtherOption.validator(_fbKey, "medical_equipment", "Please specify Other Medical Equipment"),
+                      FormBuilderValidators.minLength(3),
+                    ]
+                  ),
+                  visible: _medEquipmentOtherViz
+                )
               ]
             )
           ),
