@@ -1,3 +1,4 @@
+import 'package:app/form_fields/delivery.dart';
 import 'package:app/form_fields/medical_equipment.dart';
 import 'package:app/form_fields/other_option.dart';
 import 'package:app/form_fields/states.dart';
@@ -19,6 +20,13 @@ class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
   void showMedEquipmentOther(value) {
     setState(() {
       _medEquipmentOtherViz = OtherOption.isSelected(value);
+    });
+  }
+
+  bool _deliveryOtherViz = false;
+  void showDeliveryOther(value) {
+    setState(() {
+      _deliveryOtherViz = OtherOption.isSelected(value);
     });
   }
 
@@ -73,6 +81,7 @@ class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
                   ]
                 ),
                 FormBuilderCheckboxList(
+                  decoration: InputDecoration(labelText: "State(s)"),
                   attribute: "state",
                   options: StateFormFields.options,
                   validators: [
@@ -92,6 +101,7 @@ class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
                   ]
                 ),
                 FormBuilderCheckboxList(
+                  decoration: InputDecoration(labelText: "Medical Equipment"),
                   attribute: "medical_equipment",
                   options: MedicalEquipmentFormFields.options,
                   onChanged: (value) => showMedEquipmentOther(value),
@@ -113,7 +123,82 @@ class HaveLabSuppliesFormState extends State<HaveLabSuppliesForm> {
                     ]
                   ),
                   visible: _medEquipmentOtherViz
-                )
+                ),
+                FormBuilderTextField(
+                  attribute: "amount",
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'How many boxes/cases of each?',
+                    hintText: 'Your answer'
+                  ),
+                  validators: [
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(1),
+                  ]
+                ),
+                FormBuilderChoiceChip(
+                  decoration: InputDecoration(labelText: "What is the best way for you to give your supplies?"),
+                  attribute: "delivery_options",
+                  options: DeliveryFormFields.options,
+                  onChanged: (value) => showDeliveryOther(value),
+                  validators: [
+                    FormBuilderValidators.required(),
+                  ],
+                ),
+                Visibility(
+                  child: FormBuilderTextField(
+                    attribute: "delivery_options_other",
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'Other Delivery Method: ',
+                      hintText: 'Description of Delivery Method'
+                    ),
+                    validators: [
+                      OtherOption.validator(_fbKey, "delivery_options", "Please specify Other Delivery Method"),
+                      FormBuilderValidators.minLength(3),
+                    ]
+                  ),
+                  visible: _deliveryOtherViz
+                ),
+                FormBuilderTextField(
+                  attribute: "pickup_address",
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'If you chose pick-up, what is the address?',
+                    hintText: 'Your answer'
+                  ),
+                  validators: [
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(3),
+                  ]
+                ),
+
+                FormBuilderTextField(
+                  attribute: "affiliation",
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'University/Institution Affiliation',
+                    hintText: 'Your answer'
+                  ),
+                  validators: [
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(3),
+                  ]
+                ),
+
+                FormBuilderTextField(
+                  attribute: "comments_questions",
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Any other Comments/Questions?',
+                    hintText: 'Your answer'
+                  ),
+                  validators: [
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(3),
+                  ]
+                ),
+
               ]
             )
           ),
